@@ -1,0 +1,14 @@
+;; shadow-cljs configuration
+{:deps {:alises [:shadow-cljs]}
+ :builds {:portfolio {:target :browser
+                      :modules {:main {:entries [main]
+                                       :init-fn main/start-app!}}
+                      :output-dir "public/js"
+                      :dev {:build-hooks [(teknql.tailwind/start-watch!)]}
+                      :release {:build-hooks [(teknql.tailwind/compile-release!)]}
+                      :devtools {:http-root "public"
+                                 :http-port 8008}
+                      :tailwind/output "public/css/main-tw.css"
+                      :tailwind/files {:base-path "."
+                                       :tailwind.css "public/css/main.css"}}}
+ :nrepl {:port 7004}}
