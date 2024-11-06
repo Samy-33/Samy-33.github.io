@@ -10,6 +10,7 @@ jobs:
     steps:
       - name: Install clojure CLI
         run: |
+          sudo apt-get install -y rlwrap
           curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
           chmod +x linux-install.sh
           sudo ./linux-install.sh
@@ -33,6 +34,6 @@ jobs:
       - name: Push changes
         run: |
           export CURRENT_TIME=$(date)
-          git add *
+          git add public
           git commit -m "deploy @ ${CURRENT_TIME}"
           git push origin -u deploy

@@ -1,6 +1,4 @@
 node_modules/
-public/js
-public/css/main-tw.css
 .clj-kondo/.cache
 .lsp/.cache
 package-lock.json
