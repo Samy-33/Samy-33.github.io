@@ -42,7 +42,7 @@
 (defui main-elem []
   ($ :.div.h-full.w-full.flex.justify-center.items-center
      ($ :.card.md.flex.flex-col.md:flex-row
-        ($ :img.avatar.w-60.hidden.md:block.rounded {:src "/imgs/me-min.jpg"
+        ($ :img.avatar.w-80.hidden.md:block.rounded {:src "/imgs/me-min.jpg"
                                                      :alt "My photo"})
         ($ :.card-body.prose
            ($ :.card-title "Hey. I am Saket!")
