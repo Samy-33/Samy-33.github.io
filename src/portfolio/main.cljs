@@ -2,6 +2,7 @@
   (:require ["react-icons/fa6" :refer [FaXTwitter FaPenFancy
                                        FaGithub FaLinkedin]]
             ["react-icons/ri" :refer [RiBlueskyLine]]
+            ["react-icons/md" :refer [MdOutlineMail]]
             [uix.core :refer [$ defui]]
             [uix.dom :refer [create-root render-root]]))
 
@@ -40,21 +41,23 @@
 
 (defui main-elem []
   ($ :.div.h-full.w-full.flex.justify-center.items-center
-     ($ :.card.card-side.card-bordered
-        ($ :figure.w-60
-           ($ :img {:src "/imgs/me-min.jpg"
-                    :alt "My photo"}))
+     ($ :.card.md.flex.flex-col.md:flex-row
+        ($ :img.avatar.w-60.hidden.md:block.rounded {:src "/imgs/me-min.jpg"
+                                                     :alt "My photo"})
         ($ :.card-body.prose
            ($ :.card-title "Hey. I am Saket!")
            ($ :ul.mt-0
               ($ :li.text-sm "A Software Engineer by profession.")
               ($ :li.text-sm "A mathematician, philoshopher and musician by hobby!")
               ($ :li.text-sm "A " ($ :a {:href "https://github.com/Samy-33/dotfiles"} "btw" ($ :sup "TM")) " Enthusiast"))
-           ($ :.grid.grid-cols-3.gap-2
+           ($ :.grid.md:grid-cols-3.sm:grid-cols-2.grid-cols-1.gap-2
               (map-indexed
                (fn [idx link-cfg]
                  ($ link (assoc link-cfg :key idx)))
-               link-configs))))))
+               link-configs))
+           ($ link {:icon ($ MdOutlineMail)
+                    :href "mailto:sak3t.is@gmail.com"
+                    :text "/ sak3t.is@gmail.com"})))))
 
 (defn ^:export start-app! []
   (render-root ($ main-elem) root))
