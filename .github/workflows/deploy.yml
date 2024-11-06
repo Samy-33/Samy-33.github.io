@@ -5,34 +5,42 @@ on:
     branches: [ "master" ]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Install clojure CLI
         run: |
+          sudo apt-get install -y rlwrap
           curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
           chmod +x linux-install.sh
           sudo ./linux-install.sh
-      - name: git config
-        run: |
-          git config --global user.email "saket.is.sam@gmail.com"
-          git config --global user.name "Samy-33"
-      - name: Switch to deploy branch
+      - name: Switch to master branch
         uses: actions/checkout@v4
         with:
-          ref: deploy
+          ref: master
           fetch-depth: 0
       - name: clean build files
         run: rm -rf public/js public/css/main-tw.css
-      - name: merge master changes
-        run: git merge origin/master
       - name: Install npm deps
         run: npm i
       - name: Build release
         run: clj -M:shadow-cljs release portfolio
-      - name: Push changes
-        run: |
-          export CURRENT_TIME=$(date)
-          git add *
-          git commit -m "deploy @ ${CURRENT_TIME}"
-          git push origin -u deploy
+      - name: Upload static files as artifact
+        id: deployment
+        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
+        with:
+          path: public/
+
+  deploy:
+    needs: build
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
