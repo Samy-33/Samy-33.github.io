@@ -1,0 +1,33 @@
+name: Deploy branch
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: git config
+        run: |
+          git config --global user.email "saket.is.sam@gmail.com"
+          git config --global user.name "Samy-33"
+      - name: Switch to deploy branch
+        uses: actions/checkout@v4
+        with:
+          ref: deploy
+          fetch-depth: 0
+      - name: clean build files
+        run: rm -rf public/js public/css/main-tw.css
+      - name: merge master changes
+        run: git merge origin/master
+      - name: Install npm deps
+        run: npm i
+      - name: Build release
+        run: clj -M:shadow-cljs release portfolio
+      - name: Push changes
+        run: |
+          export CURRENT_TIME=$(date)
+          git add *
+          git commit -m "deploy @ ${CURRENT_TIME}"
+          git push origin -u deploy
