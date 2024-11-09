@@ -1,31 +1,30 @@
 (ns main
-  (:require ["react-icons/fa6" :refer [FaXTwitter FaPenFancy
-                                       FaGithub FaLinkedin]]
-            ["react-icons/ri" :refer [RiBlueskyLine]]
-            ["react-icons/md" :refer [MdOutlineMail]]
-            [uix.core :refer [$ defui]]
-            [uix.dom :refer [create-root render-root]]))
+  (:require
+   [icons :refer [fa6-github fa6-linkedin fa6-pen-fancy fa6-x-twitter md-mail
+                  remix-bluesky]]
+   [uix.core :refer [$ defui]]
+   [uix.dom :refer [create-root render-root]]))
 
 (defonce root (create-root (js/document.getElementById "root")))
 
 (def link-configs
-  [{:icon ($ FaPenFancy)
+  [{:icon fa6-pen-fancy
     :href "https://blog.saketpatel.me"
     :text "/ writings"
     :tooltip "Blog"}
-   {:icon ($ FaGithub)
+   {:icon fa6-github
     :href "https://github.com/Samy-33"
     :text "/ Samy-33"
     :tooltip "Github"}
-   {:icon ($ FaLinkedin)
+   {:icon fa6-linkedin
     :href "https://linkedin.com/in/saketsm"
     :text "/ saketsm"
     :tooltip "LinkedIn"}
-   {:icon ($ FaXTwitter)
+   {:icon fa6-x-twitter
     :href "https://x.com/saak3t"
     :text "/ saak3t"
     :tooltip "Twitter / X"}
-   {:icon ($ RiBlueskyLine)
+   {:icon remix-bluesky
     :href "https://bsky.app/profile/sak3t.bsky.social"
     :text "/ sak3t"
     :tooltip "BlueSky"}])
@@ -36,7 +35,7 @@
      ($ :a {:href href
             :target :_default}
         ($ :button.btn.btn-sm.btn-block
-           icon
+           ($ icon {:class "h-3.5 w-3.5"})
            ($ :span.text-sm text)))))
 
 (defui main-elem []
@@ -55,7 +54,7 @@
                (fn [idx link-cfg]
                  ($ link (assoc link-cfg :key idx)))
                link-configs))
-           ($ link {:icon ($ MdOutlineMail)
+           ($ link {:icon md-mail
                     :href "mailto:sak3t.is@gmail.com"
                     :text "/ sak3t.is@gmail.com"})))))
 
